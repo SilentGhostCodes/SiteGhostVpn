@@ -3,6 +3,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :root {
@@ -31,6 +32,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* === ФОН С АНИМАЦИЕЙ === */
@@ -104,7 +107,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 24px;
+  gap: 20px;
 }
 
 /* === ХЕДЕР === */
@@ -140,21 +143,21 @@ body {
 }
 
 h1 {
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 700;
   background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
-  text-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
 }
 
 .subtitle {
   color: var(--text-secondary);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
   margin-top: 8px;
+  line-height: 1.4;
 }
 
 /* === КАРТОЧКИ === */
@@ -163,7 +166,7 @@ h1 {
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 28px;
+  padding: 24px;
   transition: var(--transition);
   animation: fadeInUp 0.8s ease-out backwards;
   box-shadow: var(--shadow-sm);
@@ -214,31 +217,32 @@ h1 {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   color: var(--text-primary);
 }
 
 .card-title .icon {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   color: var(--primary-color);
   stroke-width: 2.5;
+  flex-shrink: 0;
 }
 
 /* === ПОДПИСКИ === */
 .subscription-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .subscription-item {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 16px;
+  padding: 14px;
   transition: var(--transition);
 }
 
@@ -252,28 +256,31 @@ h1 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+  gap: 8px;
 }
 
 .sub-label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
 .sub-status {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--success-color);
   background: rgba(16, 185, 129, 0.1);
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 12px;
   border: 1px solid rgba(16, 185, 129, 0.2);
+  white-space: nowrap;
 }
 
 .sub-input-group {
   display: flex;
-  gap: 10px;
-  align-items: center;
+  gap: 8px;
+  align-items: stretch;
+  flex-direction: column;
 }
 
 .sub-input {
@@ -281,12 +288,16 @@ h1 {
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
-  padding: 12px 16px;
+  padding: 12px 14px;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 12px;
   font-family: 'Courier New', monospace;
   transition: var(--transition);
   outline: none;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sub-input:focus {
@@ -301,7 +312,7 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 14px 20px;
   border: none;
   border-radius: 10px;
   font-size: 14px;
@@ -313,6 +324,10 @@ h1 {
   white-space: nowrap;
   position: relative;
   overflow: hidden;
+  min-height: 48px;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .btn::before {
@@ -328,7 +343,7 @@ h1 {
   transition: width 0.6s, height 0.6s;
 }
 
-.btn:hover::before {
+.btn:active::before {
   width: 300px;
   height: 300px;
 }
@@ -338,6 +353,7 @@ h1 {
   height: 18px;
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
 }
 
 .btn-text {
@@ -349,15 +365,11 @@ h1 {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   color: white;
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-}
-
-.btn-copy:hover {
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
-  transform: translateY(-2px);
+  width: 100%;
 }
 
 .btn-copy:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .btn-copy.copied {
@@ -369,11 +381,11 @@ h1 {
   color: white;
   box-shadow: var(--shadow-sm);
   flex: 1;
+  min-width: 0;
 }
 
-.btn-primary:hover {
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-  transform: translateY(-2px);
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .btn-secondary {
@@ -382,9 +394,9 @@ h1 {
   border: 1px solid var(--border-color);
 }
 
-.btn-secondary:hover {
+.btn-secondary:active {
   background: rgba(255, 255, 255, 0.1);
-  border-color: var(--primary-color);
+  transform: scale(0.98);
 }
 
 .btn-full {
@@ -394,22 +406,22 @@ h1 {
 /* === ГРУППА КНОПОК === */
 .button-group {
   display: flex;
-  gap: 12px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .support-text {
   color: var(--text-secondary);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 4px;
 }
 
 /* === СОЦИАЛЬНЫЕ ССЫЛКИ === */
 .social-links {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   animation: fadeInUp 0.8s ease-out backwards;
   animation-delay: 0.4s;
 }
@@ -418,7 +430,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 20px;
+  padding: 14px 18px;
   background: var(--bg-card);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
@@ -428,13 +440,14 @@ h1 {
   transition: var(--transition);
   font-size: 14px;
   font-weight: 500;
+  min-height: 52px;
+  touch-action: manipulation;
 }
 
-.social-link:hover {
+.social-link:active {
   background: var(--bg-card-hover);
   border-color: var(--primary-color);
-  transform: translateX(4px);
-  box-shadow: var(--shadow-md);
+  transform: scale(0.98);
 }
 
 .social-icon {
@@ -443,14 +456,19 @@ h1 {
   flex-shrink: 0;
 }
 
-/* === АДАПТИВНОСТЬ === */
+/* === МОБИЛЬНАЯ ОПТИМИЗАЦИЯ === */
 @media (max-width: 640px) {
   .container {
-    padding: 30px 16px;
+    padding: 24px 16px;
+    gap: 16px;
   }
 
   h1 {
-    font-size: 36px;
+    font-size: 32px;
+  }
+
+  .subtitle {
+    font-size: 14px;
   }
 
   .ghost-icon {
@@ -459,46 +477,116 @@ h1 {
   }
 
   .card {
-    padding: 20px;
+    padding: 18px;
   }
 
   .card-title {
-    font-size: 18px;
+    font-size: 17px;
+    margin-bottom: 14px;
   }
 
-  .button-group {
-    flex-direction: column;
-  }
-
-  .btn-primary {
-    width: 100%;
-  }
-
-  .sub-input-group {
-    flex-direction: column;
-  }
-
-  .btn-copy {
-    width: 100%;
+  .subscription-item {
+    padding: 12px;
   }
 
   .sub-input {
+    font-size: 11px;
+    padding: 10px 12px;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 12px 18px;
+  }
+
+  .support-text {
     font-size: 12px;
   }
 }
 
 @media (max-width: 400px) {
+  .container {
+    padding: 20px 12px;
+  }
+
   h1 {
     font-size: 28px;
   }
 
   .subtitle {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .logo {
-    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ghost-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .card-title {
+    font-size: 16px;
+    gap: 10px;
+  }
+
+  .sub-label {
+    font-size: 12px;
+  }
+
+  .sub-status {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .sub-input {
+    font-size: 10px;
+    padding: 10px;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 12px 16px;
+  }
+
+  .btn-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .button-group {
     gap: 8px;
+  }
+}
+
+/* === ЛАНДШАФТНАЯ ОРИЕНТАЦИЯ НА МОБИЛЬНЫХ === */
+@media (max-height: 600px) and (orientation: landscape) {
+  .container {
+    padding: 20px 16px;
+    justify-content: flex-start;
+  }
+
+  .header {
+    margin-bottom: 12px;
+  }
+
+  .ghost-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .card {
+    padding: 16px;
   }
 }
 
@@ -522,8 +610,9 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Скроллбар */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -532,9 +621,20 @@ html {
 
 ::-webkit-scrollbar-thumb {
   background: rgba(139, 92, 246, 0.5);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 92, 246, 0.7);
+}
+
+/* Улучшение для iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  .btn, .social-link {
+    -webkit-tap-highlight-color: rgba(139, 92, 246, 0.2);
+  }
+  
+  input {
+    font-size: 16px !important;
+  }
 }
