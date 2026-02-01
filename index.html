@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghost VPN</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* АНИМИРОВАННЫЙ ФОН */
+    .background {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .line {
+      position: absolute;
+      width: 2px;
+      height: 120%;
+      background: rgba(255, 255, 255, 0.15);
+      animation: move 12s linear infinite;
+    }
+
+    @keyframes move {
+      from {
+        transform: translateY(-120%);
+      }
+      to {
+        transform: translateY(120%);
+      }
+    }
+
+    /* КОНТЕНТ */
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+      backdrop-filter: blur(6px);
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      opacity: 0.7;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .sub {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      flex: 1;
+      background: black;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    button, a.btn {
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    button:hover, a.btn:hover {
+      opacity: 0.85;
+    }
+
+    .support h3 {
+      margin-bottom: 12px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .links a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      opacity: 0.75;
+      margin-top: 8px;
+    }
+
+    .links a:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ФОН -->
+  <div class="background">
+    <div class="line" style="left:10%; animation-delay:0s"></div>
+    <div class="line" style="left:30%; animation-delay:3s"></div>
+    <div class="line" style="left:50%; animation-delay:6s"></div>
+    <div class="line" style="left:70%; animation-delay:1s"></div>
+    <div class="line" style="left:90%; animation-delay:4s"></div>
+  </div>
+
+  <!-- КОНТЕНТ -->
+  <div class="container">
+    <h1>Ghost VPN</h1>
+    <div class="subtitle">Бесплатные VPN подписки</div>
+
+    <div class="card">
+      <div class="sub">
+        <input value="vless://YOUR_SUB_1" readonly>
+        <button onclick="copy(this)">Копировать</button>
+      </div>
+      <div class="sub">
+        <input value="vless://YOUR_SUB_2" readonly>
+        <button onclick="copy(this)">Копировать</button>
+      </div>
+    </div>
+
+    <div class="card support">
+      <h3>Поддержать проект</h3>
+      <div class="buttons">
+        <a class="btn" href="CRYPTO_DONATE_LINK" target="_blank">Крипта</a>
+        <a class="btn" href="CARD_DONATE_LINK" target="_blank">Карта РФ</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="btn" href="PARTNERS_LINK">Партнёры</a>
+    </div>
+
+    <div class="links">
+      <a href="https://t.me/YOUR_CHANNEL" target="_blank">Telegram канал</a>
+      <a href="https://t.me/YOUR_SUPPORT" target="_blank">Поддержка</a>
+    </div>
+  </div>
+
+  <script>
+    function copy(btn) {
+      const input = btn.previousElementSibling;
+      input.select();
+      document.execCommand("copy");
+      btn.innerText = "Скопировано";
+      setTimeout(() => btn.innerText = "Копировать", 1500);
+    }
+  </script>
+
+</body>
+</html>
