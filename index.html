@@ -3,194 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ghost VPN</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: black;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    /* АНИМИРОВАННЫЙ ФОН */
-    .background {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .line {
-      position: absolute;
-      width: 2px;
-      height: 120%;
-      background: rgba(255, 255, 255, 0.15);
-      animation: move 12s linear infinite;
-    }
-
-    @keyframes move {
-      from {
-        transform: translateY(-120%);
-      }
-      to {
-        transform: translateY(120%);
-      }
-    }
-
-    /* КОНТЕНТ */
-    .container {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      max-width: 420px;
-      width: 90%;
-      backdrop-filter: blur(6px);
-    }
-
-    h1 {
-      font-size: 42px;
-      margin-bottom: 20px;
-      letter-spacing: 2px;
-    }
-
-    .subtitle {
-      opacity: 0.7;
-      margin-bottom: 25px;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .sub {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    input {
-      flex: 1;
-      background: black;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 14px;
-    }
-
-    button, a.btn {
-      background: white;
-      color: black;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: bold;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    button:hover, a.btn:hover {
-      opacity: 0.85;
-    }
-
-    .support h3 {
-      margin-bottom: 12px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .links a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      opacity: 0.75;
-      margin-top: 8px;
-    }
-
-    .links a:hover {
-      opacity: 1;
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 34px;
-      }
-    }
-  </style>
+  <meta name="description" content="Ghost VPN - Бесплатные VPN подписки для безопасного интернета">
+  <title>Ghost VPN - Бесплатные VPN подписки</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ФОН -->
+  <!-- Анимированный фон с частицами -->
   <div class="background">
-    <div class="line" style="left:10%; animation-delay:0s"></div>
-    <div class="line" style="left:30%; animation-delay:3s"></div>
-    <div class="line" style="left:50%; animation-delay:6s"></div>
-    <div class="line" style="left:70%; animation-delay:1s"></div>
-    <div class="line" style="left:90%; animation-delay:4s"></div>
+    <div class="particles" id="particles"></div>
+    <div class="gradient-overlay"></div>
   </div>
 
-  <!-- КОНТЕНТ -->
+  <!-- Основной контент -->
   <div class="container">
-    <h1>Ghost VPN</h1>
-    <div class="subtitle">Бесплатные VPN подписки</div>
-
-    <div class="card">
-      <div class="sub">
-        <input value="vless://YOUR_SUB_1" readonly>
-        <button onclick="copy(this)">Копировать</button>
+    <header class="header">
+      <div class="logo">
+        <svg class="ghost-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 10 C30 10 15 25 15 45 L15 75 L25 65 L35 75 L50 65 L65 75 L75 65 L85 75 L85 45 C85 25 70 10 50 10 Z" fill="currentColor"/>
+          <circle cx="38" cy="40" r="5" fill="#000"/>
+          <circle cx="62" cy="40" r="5" fill="#000"/>
+        </svg>
+        <h1>Ghost VPN</h1>
       </div>
-      <div class="sub">
-        <input value="vless://YOUR_SUB_2" readonly>
-        <button onclick="copy(this)">Копировать</button>
+      <p class="subtitle">Бесплатные VPN подписки для безопасного интернета</p>
+    </header>
+
+    <!-- Карточка с подписками -->
+    <section class="card subscriptions-card">
+      <h2 class="card-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        VPN Подписки
+      </h2>
+      <div class="subscription-list">
+        <div class="subscription-item">
+          <div class="sub-header">
+            <span class="sub-label">Подписка #1</span>
+            <span class="sub-status">Активна</span>
+          </div>
+          <div class="sub-input-group">
+            <input type="text" value="vless://YOUR_SUB_1" readonly class="sub-input">
+            <button class="btn btn-copy" onclick="copySubscription(this)">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              <span class="btn-text">Копировать</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="subscription-item">
+          <div class="sub-header">
+            <span class="sub-label">Подписка #2</span>
+            <span class="sub-status">Активна</span>
+          </div>
+          <div class="sub-input-group">
+            <input type="text" value="vless://YOUR_SUB_2" readonly class="sub-input">
+            <button class="btn btn-copy" onclick="copySubscription(this)">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              <span class="btn-text">Копировать</span>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="card support">
-      <h3>Поддержать проект</h3>
-      <div class="buttons">
-        <a class="btn" href="CRYPTO_DONATE_LINK" target="_blank">Крипта</a>
-        <a class="btn" href="CARD_DONATE_LINK" target="_blank">Карта РФ</a>
+    <!-- Карточка поддержки проекта -->
+    <section class="card support-card">
+      <h2 class="card-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Поддержать проект
+      </h2>
+      <p class="support-text">Ваша поддержка помогает нам развивать проект и предоставлять бесплатный VPN</p>
+      <div class="button-group">
+        <a class="btn btn-primary" href="CRYPTO_DONATE_LINK" target="_blank">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M9.5 9.5L14.5 14.5M14.5 9.5L9.5 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Крипта</span>
+        </a>
+        <a class="btn btn-primary" href="CARD_DONATE_LINK" target="_blank">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M2 10H22" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span>Карта РФ</span>
+        </a>
       </div>
-    </div>
+    </section>
 
-    <div class="card">
-      <a class="btn" href="PARTNERS_LINK">Партнёры</a>
-    </div>
+    <!-- Партнёры -->
+    <section class="card partners-card">
+      <a class="btn btn-secondary btn-full" href="PARTNERS_LINK">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Наши партнёры</span>
+      </a>
+    </section>
 
-    <div class="links">
-      <a href="https://t.me/YOUR_CHANNEL" target="_blank">Telegram канал</a>
-      <a href="https://t.me/YOUR_SUPPORT" target="_blank">Поддержка</a>
-    </div>
+    <!-- Социальные ссылки -->
+    <footer class="social-links">
+      <a href="https://t.me/YOUR_CHANNEL" target="_blank" class="social-link">
+        <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+        </svg>
+        Telegram канал
+      </a>
+      <a href="https://t.me/YOUR_SUPPORT" target="_blank" class="social-link">
+        <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Поддержка
+      </a>
+    </footer>
   </div>
 
-  <script>
-    function copy(btn) {
-      const input = btn.previousElementSibling;
-      input.select();
-      document.execCommand("copy");
-      btn.innerText = "Скопировано";
-      setTimeout(() => btn.innerText = "Копировать", 1500);
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
