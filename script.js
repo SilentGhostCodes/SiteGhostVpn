@@ -2,12 +2,16 @@
 document.addEventListener('DOMContentLoaded', () => {
   initParticles();
   initAnimations();
+  initMobileOptimizations();
 });
 
 // === СОЗДАНИЕ АНИМИРОВАННЫХ ЧАСТИЦ ===
 function initParticles() {
   const particlesContainer = document.getElementById('particles');
-  const particleCount = 50; // Количество частиц
+  
+  // Определяем количество частиц в зависимости от устройства
+  const isMobile = window.innerWidth < 768;
+  const particleCount = isMobile ? 25 : 50;
 
   for (let i = 0; i < particleCount; i++) {
     createParticle(particlesContainer);
@@ -19,11 +23,12 @@ function createParticle(container) {
   particle.className = 'particle';
   
   // Случайные параметры частицы
-  const size = Math.random() * 4 + 2; // Размер от 2 до 6px
-  const startX = Math.random() * 100; // Начальная позиция по X (0-100%)
-  const drift = (Math.random() - 0.5) * 100; // Смещение по X во время движения
-  const duration = Math.random() * 20 + 15; // Длительность анимации 15-35 секунд
-  const delay = Math.random() * 5; // Задержка перед началом 0-5 секунд
+  const isMobile = window.innerWidth < 768;
+  const size = Math.random() * (isMobile ? 3 : 4) + 2;
+  const startX = Math.random() * 100;
+  const drift = (Math.random() - 0.5) * (isMobile ? 50 : 100);
+  const duration = Math.random() * 20 + 15;
+  const delay = Math.random() * 5;
   
   // Применяем стили
   particle.style.width = `${size}px`;
@@ -51,35 +56,60 @@ function copySubscription(button) {
   
   // Выделяем и копируем текст
   input.select();
-  input.setSelectionRange(0, 99999); // Для мобильных устройств
+  input.setSelectionRange(0, 99999);
   
   try {
     // Современный метод копирования
-    navigator.clipboard.writeText(input.value).then(() => {
-      showCopySuccess(button, btnText, originalText);
-    }).catch(() => {
-      // Fallback для старых браузеров
-      document.execCommand('copy');
-      showCopySuccess(button, btnText, originalText);
-    });
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(input.value).then(() => {
+        showCopySuccess(button, btnText, originalText);
+        // Добавляем вибрацию на мобильных устройствах
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
+      }).catch(() => {
+        // Fallback для старых браузеров
+        fallbackCopy(input, button, btnText, originalText);
+      });
+    } else {
+      fallbackCopy(input, button, btnText, originalText);
+    }
   } catch (err) {
     console.error('Ошибка копирования:', err);
+    fallbackCopy(input, button, btnText, originalText);
   }
   
-  // Убираем выделение
-  window.getSelection().removeAllRanges();
+  // Убираем выделение для лучшего UX
+  setTimeout(() => {
+    window.getSelection().removeAllRanges();
+    input.blur();
+  }, 100);
+}
+
+// Fallback метод копирования для старых браузеров
+function fallbackCopy(input, button, btnText, originalText) {
+  try {
+    document.execCommand('copy');
+    showCopySuccess(button, btnText, originalText);
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
+  } catch (err) {
+    console.error('Fallback copy failed:', err);
+    btnText.textContent = 'Ошибка';
+    setTimeout(() => {
+      btnText.textContent = originalText;
+    }, 2000);
+  }
 }
 
 // === ВИЗУАЛЬНАЯ ОБРАТНАЯ СВЯЗЬ ПРИ КОПИРОВАНИИ ===
 function showCopySuccess(button, btnText, originalText) {
-  // Добавляем класс успешного копирования
   button.classList.add('copied');
   btnText.textContent = 'Скопировано!';
   
-  // Создаём эффект "летящей" галочки
   createCheckmark(button);
   
-  // Возвращаем исходное состояние через 2 секунды
   setTimeout(() => {
     button.classList.remove('copied');
     btnText.textContent = originalText;
@@ -106,7 +136,6 @@ function createCheckmark(button) {
   
   document.body.appendChild(checkmark);
   
-  // Удаляем элемент после завершения анимации
   setTimeout(() => checkmark.remove(), 1000);
 }
 
@@ -141,76 +170,75 @@ function initAnimations() {
     });
   }, observerOptions);
   
-  // Наблюдаем за всеми карточками
   document.querySelectorAll('.card').forEach(card => {
     observer.observe(card);
   });
 }
 
-// === ПЛАВНОЕ ПОЯВЛЕНИЕ ЭЛЕМЕНТОВ ПРИ СКРОЛЛЕ ===
-window.addEventListener('scroll', () => {
-  const elements = document.querySelectorAll('.card, .social-link');
-  
-  elements.forEach(element => {
-    const position = element.getBoundingClientRect();
-    
-    if (position.top < window.innerHeight && position.bottom >= 0) {
-      element.style.opacity = '1';
-      element.style.transform = 'translateY(0)';
+// === МОБИЛЬНАЯ ОПТИМИЗАЦИЯ ===
+function initMobileOptimizations() {
+  // Предотвращаем зум при двойном тапе на iOS
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', (event) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+      event.preventDefault();
     }
-  });
-});
+    lastTouchEnd = now;
+  }, false);
 
-// === ПАРАЛЛАКС ЭФФЕКТ ДЛЯ ЗАГОЛОВКА ===
-let ticking = false;
-
-window.addEventListener('scroll', () => {
-  if (!ticking) {
-    window.requestAnimationFrame(() => {
-      const header = document.querySelector('.header');
-      const scrolled = window.pageYOffset;
-      const rate = scrolled * 0.3;
-      
-      if (header) {
-        header.style.transform = `translateY(${rate}px)`;
+  // Улучшенная обработка фокуса для мобильных
+  const inputs = document.querySelectorAll('.sub-input');
+  inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+      // Прокручиваем к элементу на мобильных
+      if (window.innerWidth < 768) {
+        setTimeout(() => {
+          this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
       }
-      
-      ticking = false;
+    });
+  });
+
+  // Добавляем touch feedback для всех интерактивных элементов
+  const interactiveElements = document.querySelectorAll('.btn, .social-link, .subscription-item');
+  interactiveElements.forEach(el => {
+    el.addEventListener('touchstart', function() {
+      this.style.opacity = '0.7';
     });
     
-    ticking = true;
-  }
-});
-
-// === УЛУЧШЕНИЕ ДОСТУПНОСТИ ===
-// Добавляем поддержку клавиатуры для кнопок копирования
-document.querySelectorAll('.btn-copy').forEach(button => {
-  button.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      copySubscription(button);
-    }
+    el.addEventListener('touchend', function() {
+      this.style.opacity = '1';
+    });
+    
+    el.addEventListener('touchcancel', function() {
+      this.style.opacity = '1';
+    });
   });
-});
-
-// === ОБРАБОТКА ОШИБОК ЗАГРУЗКИ ===
-window.addEventListener('error', (e) => {
-  console.error('Ошибка загрузки ресурса:', e);
-}, true);
-
-// === ОПРЕДЕЛЕНИЕ ТЕМНОЙ ТЕМЫ СИСТЕМЫ ===
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  document.body.classList.add('dark-mode');
 }
 
-// === ОТСЛЕЖИВАНИЕ ИЗМЕНЕНИЙ ТЕМЫ ===
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-  if (e.matches) {
-    document.body.classList.add('dark-mode');
-  } else {
-    document.body.classList.remove('dark-mode');
-  }
-});
+// === ПАРАЛЛАКС ЭФФЕКТ (ОТКЛЮЧЕН НА МОБИЛЬНЫХ) ===
+if (window.innerWidth > 768) {
+  let ticking = false;
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const header = document.querySelector('.header');
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * 0.3;
+        
+        if (header) {
+          header.style.transform = `translateY(${rate}px)`;
+        }
+        
+        ticking = false;
+      });
+      
+      ticking = true;
+    }
+  });
+}
 
 // === ПРОИЗВОДИТЕЛЬНОСТЬ: THROTTLE ФУНКЦИЯ ===
 function throttle(func, limit) {
@@ -228,33 +256,90 @@ function throttle(func, limit) {
 
 // === ОБРАБОТКА ИЗМЕНЕНИЯ РАЗМЕРА ОКНА ===
 const handleResize = throttle(() => {
-  // Пересоздаём частицы при изменении размера окна
   const particlesContainer = document.getElementById('particles');
-  if (particlesContainer && window.innerWidth < 768) {
-    // Уменьшаем количество частиц на мобильных устройствах
-    const particles = particlesContainer.querySelectorAll('.particle');
-    if (particles.length > 30) {
-      particles.forEach((particle, index) => {
-        if (index % 2 === 0) particle.remove();
-      });
+  const isMobile = window.innerWidth < 768;
+  const particles = particlesContainer.querySelectorAll('.particle');
+  
+  const targetCount = isMobile ? 25 : 50;
+  
+  if (particles.length > targetCount) {
+    // Удаляем лишние частицы
+    particles.forEach((particle, index) => {
+      if (index >= targetCount) particle.remove();
+    });
+  } else if (particles.length < targetCount) {
+    // Добавляем недостающие частицы
+    const needed = targetCount - particles.length;
+    for (let i = 0; i < needed; i++) {
+      createParticle(particlesContainer);
     }
   }
 }, 250);
 
 window.addEventListener('resize', handleResize);
 
+// === ОБРАБОТКА ИЗМЕНЕНИЯ ОРИЕНТАЦИИ ===
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    handleResize();
+  }, 200);
+});
+
 // === PREFERS REDUCED MOTION ===
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  // Отключаем сложные анимации для пользователей с настройками доступности
   document.querySelectorAll('.particle').forEach(particle => {
     particle.style.animation = 'none';
   });
+  
+  // Отключаем параллакс
+  const header = document.querySelector('.header');
+  if (header) {
+    header.style.transform = 'none';
+  }
 }
 
-// === КОНСОЛЬНОЕ СООБЩЕНИЕ ДЛЯ РАЗРАБОТЧИКОВ ===
-console.log('%c👻 Ghost VPN', 'color: #8b5cf6; font-size: 24px; font-weight: bold;');
-console.log('%cСайт работает на GitHub Pages', 'color: #ec4899; font-size: 14px;');
-console.log('%cВерсия: 2.0', 'color: #06b6d4; font-size: 12px;');
+// === ОПРЕДЕЛЕНИЕ PWA ===
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  console.log('PWA install prompt available');
+});
 
-// === ЭКСПОРТ ФУНКЦИЙ ДЛЯ ГЛОБАЛЬНОГО ИСПОЛЬЗОВАНИЯ ===
+// === ОБРАБОТКА ОШИБОК ===
+window.addEventListener('error', (e) => {
+  console.error('Ошибка:', e.message);
+}, true);
+
+// === УЛУЧШЕННАЯ ПОДДЕРЖКА iOS ===
+// Устраняем проблему с :active на iOS
+document.addEventListener('touchstart', function(){}, true);
+
+// Предотвращаем pull-to-refresh на некоторых устройствах
+let startY = 0;
+document.addEventListener('touchstart', (e) => {
+  startY = e.touches[0].pageY;
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+  const y = e.touches[0].pageY;
+  if (window.pageYOffset === 0 && y > startY) {
+    // На верху страницы и тянем вниз - можем предотвратить
+  }
+}, { passive: true });
+
+// === КОНСОЛЬНОЕ СООБЩЕНИЕ ===
+console.log('%c👻 Ghost VPN', 'color: #8b5cf6; font-size: 24px; font-weight: bold;');
+console.log('%cОптимизировано для мобильных устройств', 'color: #ec4899; font-size: 14px;');
+console.log('%cВерсия: 2.0 Mobile', 'color: #06b6d4; font-size: 12px;');
+
+// === ЭКСПОРТ ФУНКЦИЙ ===
 window.copySubscription = copySubscription;
+
+// === СЕРВИС ВОРКЕР (опционально для PWA) ===
+if ('serviceWorker' in navigator) {
+  // Раскомментируйте для использования PWA
+  // navigator.serviceWorker.register('/sw.js')
+  //   .then(reg => console.log('Service Worker registered'))
+  //   .catch(err => console.log('Service Worker registration failed'));
+}
