@@ -128,7 +128,37 @@
     .fade{opacity:0;transform:translateY(12px);animation:fade 0.4s ease forwards}
     @keyframes fade{to{opacity:1;transform:translateY(0)}}
     .fade:nth-child(1){animation-delay:0.05s}.fade:nth-child(2){animation-delay:0.12s}.fade:nth-child(3){animation-delay:0.19s}.fade:nth-child(4){animation-delay:0.26s}
-    @media(max-width:480px){.support-grid{grid-template-columns:1fr}}
+    @media(max-width:600px){
+      .support-grid{grid-template-columns:1fr}
+
+      /* Луна — меньше и в угол */
+      .moon{
+        width:45px;height:45px;
+        top:12px;right:16px;
+        box-shadow:0 0 15px rgba(255,240,100,0.2),0 0 40px rgba(255,220,50,0.1);
+      }
+
+      /* Левая ветка — убираем совсем на маленьких */
+      .branch-left{
+        width:160px;height:280px;
+        left:-30px;bottom:0;
+        opacity:0.35;
+      }
+
+      /* Правая ветка — меньше и не перекрывает */
+      .branch-right{
+        width:150px;height:200px;
+        top:-10px;right:-20px;
+        opacity:0.3;
+      }
+
+      /* Лепестки — меньше */
+      .petal{width:5px;height:4px}
+
+      /* Заголовок */
+      header{padding:36px 0 30px}
+      .logo-name{font-size:22px}
+    }
   </style>
 </head>
 <body>
