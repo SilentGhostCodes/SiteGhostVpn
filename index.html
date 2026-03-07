@@ -17,16 +17,13 @@
     }
     body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-    /* SPRING NIGHT — цветущие ветки сакуры на фоне */
     canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-    /* Тёмно-синий градиент неба */
     .sky{
       position:fixed;inset:0;z-index:0;
       background:linear-gradient(180deg,#04081a 0%,#080f24 40%,#0d1830 70%,#091220 100%);
     }
 
-    /* Луна */
     .moon{
       position:fixed;top:50px;right:120px;z-index:1;
       width:90px;height:90px;
@@ -45,14 +42,12 @@
       background:rgba(0,0,0,0.06);
     }
 
-    /* Ветка сакуры слева */
     .branch-left{
       position:fixed;bottom:0;left:0;z-index:1;
       width:440px;height:720px;
       opacity:0.7;
     }
 
-    /* Ветка сакуры справа */
     .branch-right{
       position:fixed;top:0;right:0;z-index:1;
       width:400px;height:580px;
@@ -60,7 +55,6 @@
       transform:scaleX(-1) rotate(10deg);
     }
 
-    /* Частицы лепестков */
     .petal{
       position:fixed;z-index:1;
       width:8px;height:6px;
@@ -130,32 +124,22 @@
     .fade:nth-child(1){animation-delay:0.05s}.fade:nth-child(2){animation-delay:0.12s}.fade:nth-child(3){animation-delay:0.19s}.fade:nth-child(4){animation-delay:0.26s}
     @media(max-width:600px){
       .support-grid{grid-template-columns:1fr}
-
-      /* Луна — меньше и в угол */
       .moon{
         width:45px;height:45px;
         top:12px;right:16px;
         box-shadow:0 0 15px rgba(255,240,100,0.2),0 0 40px rgba(255,220,50,0.1);
       }
-
-      /* Левая ветка — убираем совсем на маленьких */
       .branch-left{
         width:160px;height:280px;
         left:-30px;bottom:0;
         opacity:0.35;
       }
-
-      /* Правая ветка — меньше и не перекрывает */
       .branch-right{
         width:150px;height:200px;
         top:-10px;right:-20px;
         opacity:0.3;
       }
-
-      /* Лепестки — меньше */
       .petal{width:5px;height:4px}
-
-      /* Заголовок */
       header{padding:36px 0 30px}
       .logo-name{font-size:22px}
     }
@@ -165,13 +149,11 @@
   <div class="sky"></div>
   <div class="moon"></div>
 
-  <!-- SVG ветка слева -->
   <svg class="branch-left" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M20 500 C 40 400, 60 350, 80 280 C 100 210, 110 180, 100 120 C 90 60, 80 30, 90 0" stroke="#4a2c1a" stroke-width="8" fill="none"/>
     <path d="M80 280 C 120 260, 160 240, 200 220" stroke="#4a2c1a" stroke-width="5" fill="none"/>
     <path d="M100 200 C 140 180, 170 160, 190 140" stroke="#4a2c1a" stroke-width="4" fill="none"/>
     <path d="M90 350 C 50 330, 20 310, 10 290" stroke="#4a2c1a" stroke-width="4" fill="none"/>
-    <!-- Цветы -->
     <circle cx="200" cy="220" r="6" fill="#ff9eb5" opacity="0.9"/>
     <circle cx="210" cy="215" r="5" fill="#ffb3c6" opacity="0.8"/>
     <circle cx="195" cy="210" r="5" fill="#ff85a1" opacity="0.9"/>
@@ -185,7 +167,6 @@
     <circle cx="205" cy="228" r="3" fill="#ffb3c6" opacity="0.8"/>
   </svg>
 
-  <!-- SVG ветка справа -->
   <svg class="branch-right" viewBox="0 0 280 400" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M260 0 C 240 80, 220 130, 200 190 C 180 250, 170 280, 180 350 C 190 400, 200 420, 190 450" stroke="#4a2c1a" stroke-width="8" fill="none"/>
     <path d="M200 190 C 160 170, 120 155, 80 145" stroke="#4a2c1a" stroke-width="5" fill="none"/>
@@ -200,7 +181,6 @@
     <circle cx="90" cy="143" r="3" fill="#ffb3c6" opacity="0.6"/>
   </svg>
 
-  <!-- Лепестки -->
   <div class="petal" style="left:10%;animation-duration:8s;animation-delay:0s;top:-10px"></div>
   <div class="petal" style="left:25%;animation-duration:11s;animation-delay:2s;top:-10px;width:6px;height:5px"></div>
   <div class="petal" style="left:40%;animation-duration:9s;animation-delay:4s;top:-10px"></div>
@@ -240,7 +220,7 @@
       <div class="label">Контакты</div>
       <div class="links-list">
         <a href="https://t.me/GhostVPN_vpn_bot" target="_blank" class="link-item"><div class="link-icon icon-tg">📣</div>Telegram канал<span class="link-arrow">↗</span></a>
-        <a href="https://t.me/GhostVPN_vpn_bot" target="_blank" class="link-item"><div class="link-icon icon-help">🛟</div>Поддержка<span class="link-arrow">↗</span></a>
+        <a href="https://t.me/GhostVpn_Support_Bot" target="_blank" class="link-item"><div class="link-icon icon-help">🛟</div>Поддержка<span class="link-arrow">↗</span></a>
         <a href="#" class="link-item"><div class="link-icon icon-partner">🤝</div>Наши партнёры<span class="link-arrow">↗</span></a>
       </div>
     </section>
